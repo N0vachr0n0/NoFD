@@ -4,6 +4,77 @@
 # Description: This script is part of an exercise from nofuture.dev
 # Course Link: 
 
+# Fonction pour définir les messages selon la langue
+set_language_messages() {
+    if [ "$LANG" = "2" ]; then
+        # Messages en anglais
+        TITLE="=== Exercise 4: System Analysis ==="
+        TITLE_SPACE=" "
+        INSTRUCTIONS="Follow the steps below to complete the exercise:"
+        STEP1="1. Create a directory named 'projet_4' in your home directory."
+        STEP2="2. Create the following files in 'projet_4': ram.txt, swap.txt, cpu.txt, cpu_cmd.txt, version_id.txt, and root_size.txt."
+        STEP3="3. Determine the total RAM of your system in MB (e.g., 779) and save it in 'ram.txt'."
+        STEP4="4. Determine the total SWAP memory of your system in MB (e.g., 18) and save it in 'swap.txt'."
+        STEP5="5. Determine the number of CPUs on your machine. Save the value in 'cpu.txt' using a redirection. Also, save the executed command in 'cpu_cmd.txt' using the absolute path to 'cpu.txt'."
+        STEP6="6. Determine the version ID of your Linux distribution (hint: check .release files in /etc/) and save it in 'version_id.txt'."
+        STEP7="7. Determine the total size of the root partition ('/') in GB (e.g., 100G) and save it in 'root_size.txt'."
+        CHECKING="=== Checking in progress... ==="
+        PROMPT_VERIFY="Do you want to proceed with the exercise verification? (y/n): "
+        PROMPT_CHANGE_LANG="Change language? (1: Français, 2: English, any key to continue): "
+
+        MSG_FILES_CREATED="✅ All required files have been created."
+        MSG_PROJECT_NOT_EXISTS="❌ Error: The directory 'projet_4' does not exist."
+        MSG_FILE_NOT_EXISTS="❌ Error: The file does not exist."
+        MSG_RAM_OK="✅ The RAM value in 'ram.txt' is correct."
+        MSG_RAM_WRONG="❌ Error: The RAM value in 'ram.txt' is incorrect."
+        MSG_SWAP_OK="✅ The SWAP value in 'swap.txt' is correct."
+        MSG_SWAP_WRONG="❌ Error: The SWAP value in 'swap.txt' is incorrect."
+        MSG_CPU_OK="✅ The CPU value in 'cpu.txt' is correct."
+        MSG_CPU_WRONG="❌ Error: The CPU value in 'cpu.txt' is incorrect."
+        MSG_CPU_CMD_OK="✅ The command in 'cpu_cmd.txt' is correct."
+        MSG_CPU_CMD_WRONG="❌ Error: The command in 'cpu_cmd.txt' is incorrect."
+        MSG_VERSION_ID_OK="✅ The version ID in 'version_id.txt' is correct."
+        MSG_VERSION_ID_WRONG="❌ Error: The version ID in 'version_id.txt' is incorrect."
+        MSG_ROOT_SIZE_OK="✅ The root size in 'root_size.txt' is correct."
+        MSG_ROOT_SIZE_WRONG="❌ Error: The root size in 'root_size.txt' is incorrect."
+        MSG_SUCCESS="🎉 Congratulations! All steps of Exercise 4 are correct."
+        MSG_FLAG="🏁 Your flag: NoFD_{system_analyzer_4}"
+    else
+        # Messages en français
+        TITLE="=== Exercice 4 : Analyse du Système ==="
+        TITLE_SPACE=" "
+        INSTRUCTIONS="Suivez les étapes ci-dessous pour terminer l'exercice :"
+        STEP1="1. Créez un dossier nommé 'projet_4' dans votre répertoire personnel."
+        STEP2="2. Créez les fichiers suivants dans 'projet_4' : ram.txt, swap.txt, cpu.txt, cpu_cmd.txt, version_id.txt et root_size.txt."
+        STEP3="3. Déterminez la mémoire RAM totale de votre système en MB (exemple : 779) et insérez-la dans 'ram.txt'."
+        STEP4="4. Déterminez la mémoire SWAP totale de votre système en MB (exemple : 18) et insérez-la dans 'swap.txt'."
+        STEP5="5. Déterminez le nombre de CPU de votre machine. Insérez la valeur dans 'cpu.txt' en utilisant une redirection. Insérez également la commande exécutée dans 'cpu_cmd.txt' en utilisant le chemin absolu vers 'cpu.txt'."
+        STEP6="6. Déterminez l'ID de version de votre distribution Linux (indice : inspectez les fichiers .release dans /etc/) et insérez-la dans 'version_id.txt'."
+        STEP7="7. Déterminez la taille totale de la partition racine ('/') en Go (exemple : 100G) et insérez-la dans 'root_size.txt'."
+        CHECKING="=== Vérification en cours... ==="
+        PROMPT_VERIFY="Voulez-vous procéder à la vérification de l'exercice ? (o/n) : "
+        PROMPT_CHANGE_LANG="Changer la langue ? (1: Français, 2: English, autre touche pour continuer) : "
+
+        MSG_FILES_CREATED="✅ Tous les fichiers requis ont été créés."
+        MSG_PROJECT_NOT_EXISTS="❌ Erreur : Le dossier 'projet_4' n'existe pas."
+        MSG_FILE_NOT_EXISTS="❌ Erreur : Le fichier n'existe pas."
+        MSG_RAM_OK="✅ La valeur de la RAM dans 'ram.txt' est correcte."
+        MSG_RAM_WRONG="❌ Erreur : La valeur de la RAM dans 'ram.txt' est incorrecte."
+        MSG_SWAP_OK="✅ La valeur de la SWAP dans 'swap.txt' est correcte."
+        MSG_SWAP_WRONG="❌ Erreur : La valeur de la SWAP dans 'swap.txt' est incorrecte."
+        MSG_CPU_OK="✅ La valeur du CPU dans 'cpu.txt' est correcte."
+        MSG_CPU_WRONG="❌ Erreur : La valeur du CPU dans 'cpu.txt' est incorrecte."
+        MSG_CPU_CMD_OK="✅ La commande dans 'cpu_cmd.txt' est correcte."
+        MSG_CPU_CMD_WRONG="❌ Erreur : La commande dans 'cpu_cmd.txt' est incorrecte."
+        MSG_VERSION_ID_OK="✅ L'ID de version dans 'version_id.txt' est correct."
+        MSG_VERSION_ID_WRONG="❌ Erreur : L'ID de version dans 'version_id.txt' est incorrect."
+        MSG_ROOT_SIZE_OK="✅ La taille de la racine dans 'root_size.txt' est correcte."
+        MSG_ROOT_SIZE_WRONG="❌ Erreur : La taille de la racine dans 'root_size.txt' est incorrecte."
+        MSG_SUCCESS="🎉 Félicitations ! Toutes les étapes de l'exercice 4 sont correctes."
+        MSG_FLAG="🏁 Ton flag : NoFD_{system_analyzer_4}"
+    fi
+}
+
 # Demander à l'utilisateur de choisir une langue
 echo "Choose your language / Choisissez votre langue :"
 echo "1. Français"
@@ -16,72 +87,15 @@ if [ "$LANG" != "1" ] && [ "$LANG" != "2" ]; then
     exit 1
 fi
 
-# Définir les messages en fonction de la langue choisie
-if [ "$LANG" = "2" ]; then
-    # Messages en anglais
-    TITLE="=== Exercise 4: System Analysis ==="
-    INSTRUCTIONS="Follow the steps below to complete the exercise:"
-    STEP1="1. Create a directory named 'projet_4' in your home directory."
-    STEP2="2. Create the following files in 'projet_4': ram.txt, swap.txt, cpu.txt, cpu_cmd.txt, version_id.txt, and root_size.txt."
-    STEP3="3. Determine the total RAM of your system in MB (e.g., 779) and save it in 'ram.txt'."
-    STEP4="4. Determine the total SWAP memory of your system in MB (e.g., 18) and save it in 'swap.txt'."
-    STEP5="5. Determine the number of CPUs on your machine. Save the value in 'cpu.txt' using a redirection. Also, save the executed command in 'cpu_cmd.txt' using the absolute path to 'cpu.txt'."
-    STEP6="6. Determine the version ID of your Linux distribution (hint: check .release files in /etc/) and save it in 'version_id.txt'."
-    STEP7="7. Determine the total size of the root partition ('/') in GB (e.g., 100G) and save it in 'root_size.txt'."
-    CHECKING="=== Checking in progress... ==="
+clear
 
-    MSG_FILES_CREATED="✅ All required files have been created."
-    MSG_PROJECT_NOT_EXISTS="❌ Error: The directory 'projet_4' does not exist."
-    MSG_FILE_NOT_EXISTS="❌ Error: The file does not exist."
-    MSG_RAM_OK="✅ The RAM value in 'ram.txt' is correct."
-    MSG_RAM_WRONG="❌ Error: The RAM value in 'ram.txt' is incorrect."
-    MSG_SWAP_OK="✅ The SWAP value in 'swap.txt' is correct."
-    MSG_SWAP_WRONG="❌ Error: The SWAP value in 'swap.txt' is incorrect."
-    MSG_CPU_OK="✅ The CPU value in 'cpu.txt' is correct."
-    MSG_CPU_WRONG="❌ Error: The CPU value in 'cpu.txt' is incorrect."
-    MSG_CPU_CMD_OK="✅ The command in 'cpu_cmd.txt' is correct."
-    MSG_CPU_CMD_WRONG="❌ Error: The command in 'cpu_cmd.txt' is incorrect."
-    MSG_VERSION_ID_OK="✅ The version ID in 'version_id.txt' is correct."
-    MSG_VERSION_ID_WRONG="❌ Error: The version ID in 'version_id.txt' is incorrect."
-    MSG_ROOT_SIZE_OK="✅ The root size in 'root_size.txt' is correct."
-    MSG_ROOT_SIZE_WRONG="❌ Error: The root size in 'root_size.txt' is incorrect."
-    MSG_SUCCESS="🎉 Congratulations! All steps of Exercise 4 are correct."
-    MSG_FLAG="🏁 Your flag: NoFD_{system_analyzer_4}"
-else
-    # Messages en français
-    TITLE="=== Exercice 4 : Analyse du Système ==="
-    INSTRUCTIONS="Suivez les étapes ci-dessous pour terminer l'exercice :"
-    STEP1="1. Créez un dossier nommé 'projet_4' dans votre répertoire personnel."
-    STEP2="2. Créez les fichiers suivants dans 'projet_4' : ram.txt, swap.txt, cpu.txt, cpu_cmd.txt, version_id.txt et root_size.txt."
-    STEP3="3. Déterminez la mémoire RAM totale de votre système en MB (exemple : 779) et insérez-la dans 'ram.txt'."
-    STEP4="4. Déterminez la mémoire SWAP totale de votre système en MB (exemple : 18) et insérez-la dans 'swap.txt'."
-    STEP5="5. Déterminez le nombre de CPU de votre machine. Insérez la valeur dans 'cpu.txt' en utilisant une redirection. Insérez également la commande exécutée dans 'cpu_cmd.txt' en utilisant le chemin absolu vers 'cpu.txt'."
-    STEP6="6. Déterminez l'ID de version de votre distribution Linux (indice : inspectez les fichiers .release dans /etc/) et insérez-la dans 'version_id.txt'."
-    STEP7="7. Déterminez la taille totale de la partition racine ('/') en Go (exemple : 100G) et insérez-la dans 'root_size.txt'."
-    CHECKING="=== Vérification en cours... ==="
+# Définir les messages selon la langue choisie
+set_language_messages
 
-    MSG_FILES_CREATED="✅ Tous les fichiers requis ont été créés."
-    MSG_PROJECT_NOT_EXISTS="❌ Erreur : Le dossier 'projet_4' n'existe pas."
-    MSG_FILE_NOT_EXISTS="❌ Erreur : Le fichier n'existe pas."
-    MSG_RAM_OK="✅ La valeur de la RAM dans 'ram.txt' est correcte."
-    MSG_RAM_WRONG="❌ Erreur : La valeur de la RAM dans 'ram.txt' est incorrecte."
-    MSG_SWAP_OK="✅ La valeur de la SWAP dans 'swap.txt' est correcte."
-    MSG_SWAP_WRONG="❌ Erreur : La valeur de la SWAP dans 'swap.txt' est incorrecte."
-    MSG_CPU_OK="✅ La valeur du CPU dans 'cpu.txt' est correcte."
-    MSG_CPU_WRONG="❌ Erreur : La valeur du CPU dans 'cpu.txt' est incorrecte."
-    MSG_CPU_CMD_OK="✅ La commande dans 'cpu_cmd.txt' est correcte."
-    MSG_CPU_CMD_WRONG="❌ Erreur : La commande dans 'cpu_cmd.txt' est incorrecte."
-    MSG_VERSION_ID_OK="✅ L'ID de version dans 'version_id.txt' est correct."
-    MSG_VERSION_ID_WRONG="❌ Erreur : L'ID de version dans 'version_id.txt' est incorrect."
-    MSG_ROOT_SIZE_OK="✅ La taille de la racine dans 'root_size.txt' est correcte."
-    MSG_ROOT_SIZE_WRONG="❌ Erreur : La taille de la racine dans 'root_size.txt' est incorrecte."
-    MSG_SUCCESS="🎉 Félicitations ! Toutes les étapes de l'exercice 4 sont correctes."
-    MSG_FLAG="🏁 Ton flag : NoFD_{system_analyzer_4}"
-fi
-
-# Afficher l'énoncé
+# Afficher l'énoncé avec espace après le titre
 echo " "
 echo "$TITLE"
+echo "$TITLE_SPACE"
 echo "$INSTRUCTIONS"
 echo "$STEP1"
 echo "$STEP2"
@@ -90,6 +104,34 @@ echo "$STEP4"
 echo "$STEP5"
 echo "$STEP6"
 echo "$STEP7"
+echo " "
+
+# Donner la possibilité de changer la langue
+read -p "$PROMPT_CHANGE_LANG" CHANGE_LANG
+if [[ "$CHANGE_LANG" = "1" || "$CHANGE_LANG" = "2" ]]; then
+    LANG=$CHANGE_LANG
+    set_language_messages
+    clear
+    echo " "
+    echo "$TITLE"
+    echo "$TITLE_SPACE"
+    echo "$INSTRUCTIONS"
+    echo "$STEP1"
+    echo "$STEP2"
+    echo "$STEP3"
+    echo "$STEP4"
+    echo "$STEP5"
+    echo "$STEP6"
+    echo "$STEP7"
+    echo " "
+fi
+
+# Demander confirmation avant la vérification
+read -p "$PROMPT_VERIFY" CONFIRM
+if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" && "$CONFIRM" != "o" && "$CONFIRM" != "O" ]]; then
+    exit 0
+fi
+
 echo " "
 echo "$CHECKING"
 
