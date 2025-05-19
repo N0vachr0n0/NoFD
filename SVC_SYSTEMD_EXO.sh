@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# GitHub Repository: <Remplacer par votre URL GitHub>
+# GitHub Repository: https://github.com/N0vachr0n0/NoFD
 # Description: Exercise on troubleshooting a systemd backup service
-# Course Link: <Remplacer par l'URL du cours>
+# Course Link: 
 
 # Fonction pour définir les messages selon la langue
 set_language_messages() {
     if [ "$LANG" = "2" ]; then
         # Messages en anglais
+        GREETING="Hello, Linux expert!"
         TITLE="=== Exercise: Systemd Backup Service Troubleshooting ==="
         TITLE_SPACE=" "
-        INSTRUCTIONS="Hello, Linux expert!\nThe backup-etc.service, responsible for automatic backups of configuration files in /etc, is no longer running correctly. Your mission is to diagnose and fix the issues to restore the hourly backups triggered by the backup-etc.timer. Additionally, when a backup is performed, the /var/log/backup.log file is updated with the operation details."
+        INSTRUCTIONS="The backup-etc.service, responsible for automatic backups of configuration files in /etc, is no longer running correctly. Your mission is to diagnose and fix the issues to restore the hourly backups triggered by the backup-etc.timer. Additionally, when a backup is performed, the /var/log/backup.log file is updated with the operation details."
+        HINT="Hint: https://github.com/N0vachr0n0/NoFD/blob/main/Hint_SVC_SYSTEMD_EXO.md"
         CHECKING="=== Checking in progress... ==="
         PROMPT_VERIFY="Do you want to proceed with the exercise verification? (y/n): "
+        PROMPT_RESET="Reset the challenge? (y/n): "
         PROMPT_CHANGE_LANG="Change language? (1: Français, 2: English, any key to continue): "
         PROMPT_CONFIG="Initial configuration is being set up..."
         MSG_CHECK_OK="✅ Check passed."
@@ -21,11 +24,14 @@ set_language_messages() {
         MSG_FLAG="🏁 Your flag: NoFD_{systemd_backup_troubleshooting}"
     else
         # Messages en français
+        GREETING="Bonjour, expert Linux !"
         TITLE="=== Exercice : Dépannage d'un service de sauvegarde systemd ==="
         TITLE_SPACE=" "
-        INSTRUCTIONS="Bonjour, expert Linux !\nLe service backup-etc.service, responsable des sauvegardes automatiques des fichiers de configuration dans /etc, ne s'exécute plus correctement. Votre mission est de diagnostiquer et corriger les problèmes pour restaurer les sauvegardes horaires déclenchées par le timer backup-etc.timer. De plus, lorsqu'une sauvegarde est effectuée, le fichier de log /var/log/backup.log est mis à jour avec les détails de l'opération."
+        INSTRUCTIONS="Le service backup-etc.service, responsable des sauvegardes automatiques des fichiers de configuration dans /etc, ne s'exécute plus correctement. Votre mission est de diagnostiquer et corriger les problèmes pour restaurer les sauvegardes horaires déclenchées par le timer backup-etc.timer. De plus, lorsqu'une sauvegarde est effectuée, le fichier de log /var/log/backup.log est mis à jour avec les détails de l'opération."
+        HINT="Indice: https://github.com/N0vachr0n0/NoFD/blob/main/Hint_SVC_SYSTEMD_EXO.md"
         CHECKING="=== Vérification en cours... ==="
         PROMPT_VERIFY="Voulez-vous procéder à la vérification de l'exercice ? (o/n) : "
+        PROMPT_RESET="Réinitialiser le challenge ? (o/n) : "
         PROMPT_CHANGE_LANG="Changer la langue ? (1: Français, 2: English, autre touche pour continuer) : "
         PROMPT_CONFIG="La configuration initiale est en cours..."
         MSG_CHECK_OK="✅ Vérification réussie."
@@ -53,10 +59,28 @@ if [ "$LANG" != "1" ] && [ "$LANG" != "2" ]; then
     exit 1
 fi
 
-clear
-
 # Définir les messages selon la langue choisie
 set_language_messages
+
+# Demander si l'utilisateur veut réinitialiser le challenge
+read -p "$PROMPT_RESET" RESET
+if [[ "$RESET" = "y" || "$RESET" = "Y" || "$RESET" = "o" || "$RESET" = "O" ]]; then
+    printf "Resetting the challenge...\nRéinitialisation du challenge...\n"
+    # Arrêter et désactiver le timer
+    systemctl stop backup-etc.timer >/dev/null 2>&1
+    systemctl disable backup-etc.timer >/dev/null 2>&1
+    # Supprimer tous les fichiers créés
+    if [ -f /var/log/backup.log ]; then chattr -i /var/log/backup.log; fi
+    rm -rf /var/backups /var/tmp/verif /var/log/backup.log
+    rm -f /usr/local/bin/backup-etc.sh /etc/systemd/system/backup-etc.service /etc/systemd/system/backup-etc.timer
+    rm -f /var/tmp/backup_service_config_done
+    # Recharger la configuration systemd
+    systemctl daemon-reload >/dev/null 2>&1
+    printf "Challenge reset complete.\nRéinitialisation terminée.\n"
+    exit 0
+fi
+
+clear
 
 # Configuration initiale
 CONFIG_FILE="/var/tmp/backup_service_config_done"
@@ -154,7 +178,9 @@ fi
 printf "\n"
 printf "%s\n" "$TITLE"
 printf "%s\n" "$TITLE_SPACE"
+printf "%s\n" "$GREETING"
 printf "%s\n\n" "$INSTRUCTIONS"
+printf "%s\n\n" "$HINT"
 
 # Donner la possibilité de changer la langue
 read -p "$PROMPT_CHANGE_LANG" CHANGE_LANG
@@ -165,7 +191,9 @@ if [[ "$CHANGE_LANG" = "1" || "$CHANGE_LANG" = "2" ]]; then
     printf "\n"
     printf "%s\n" "$TITLE"
     printf "%s\n" "$TITLE_SPACE"
+    printf "%s\n" "$GREETING"
     printf "%s\n\n" "$INSTRUCTIONS"
+    printf "%s\n\n" "$HINT"
 fi
 
 # Demander confirmation avant la vérification
