@@ -18,9 +18,7 @@ set_language_messages() {
 4. Script Execution and File Transfer: On 'escalibur-host', execute the 'triage' script located in '/home/hunter' as the root user. Then, copy both the 'triage' script and its output to '/var/result/' on 'host_1'. Use the SSH credentials: username 'hunter', password 'DzX237EYCo49PSFE7T'.
 5. IP Configuration and Script Execution: The server at 172.66.0.9 has an interface with two IP addresses. Remove the secondary IP address, then execute the 'check' script located in '/home/hunter' as the root user. Copy the script's output to '/var/result/flag.txt' on 'host_1'.\n
 Additional Notes:
-- On 'host_1', some packages (e.g., 'ping') are missing. Use 'yum provides ping' to identify and install the required package.
-- To start the challenge, enter the 'host_1' container with: 'docker exec -it host_1 bash'.
-- Hint: Refer to https://github.com/N0vachr0n0/NoFD/blob/main/Hint_NETWORK_CHALL.md for guidance."
+- On 'host_1', some packages (e.g., 'ping') are missing. Use 'yum provides ping' to identify and install the required package."
         HINT="Hint: https://github.com/N0vachr0n0/NoFD/blob/main/Hint_NETWORK_CHALL.md"
         CHECKING="=== Checking in progress... ==="
         PROMPT_VERIFY="Do you want to proceed with the exercise verification? (y/n): "
@@ -31,8 +29,13 @@ Additional Notes:
         MSG_CHECK_FAIL="❌ Check failed."
         MSG_SUCCESS="🎉 Congratulations! All steps are correct."
         MSG_FLAG="🏁 Your flag: NoFD_{HxH}"
-        MSG_DOCKER="To start the challenge, enter the host_1 container with: docker exec -it host_1 bash"
+        MSG_DOCKER="To start the challenge, enter the host_1 container with: 'docker exec -it host_1 bash'"
         MSG_DOCKER_ERROR="❌ Error: Docker is not installed or not running. Please install Docker and ensure the daemon is active. Refer to https://docs.docker.com/get-docker/ for installation instructions."
+        MSG_CHECK_DNS="Checking DNS resolution (curl to google.com)..."
+        MSG_CHECK_PING="Checking ping to escalibur-host (172.66.0.9)..."
+        MSG_CHECK_SSH="Checking OpenSSH version in /var/tmp/openssh_version..."
+        MSG_CHECK_TRIAGE="Checking triage script and output in /var/result/..."
+        MSG_CHECK_IP_FLAG="Checking flag.txt content and secondary IP removal..."
     else
         # French messages
         GREETING="Bonjour, Expert Linux !"
@@ -45,9 +48,7 @@ Additional Notes:
 4. Exécution de script et transfert de fichiers : Sur 'escalibur-host', exécutez le script 'triage' situé dans '/home/hunter' en tant qu'utilisateur root. Ensuite, copiez le script 'triage' et son résultat dans '/var/result/' sur 'host_1'. Utilisez les identifiants SSH : utilisateur 'hunter', mot de passe 'DzX237EYCo49PSFE7T'.
 5. Configuration IP et exécution de script : Le serveur à l'adresse 172.66.0.9 possède une interface avec deux adresses IP. Supprimez la seconde adresse IP, puis exécutez le script 'check' situé dans '/home/hunter' en tant qu'utilisateur root. Copiez le résultat dans '/var/result/flag.txt' sur 'host_1'.\n
 Notes supplémentaires :
-- Sur 'host_1', certains paquets (par exemple, 'ping') sont absents. Utilisez 'yum provides ping' pour identifier et installer le paquet requis.
-- Pour commencer le challenge, entrez dans le conteneur 'host_1' avec : 'docker exec -it host_1 bash'.
-- Indice : Consultez https://github.com/N0vachr0n0/NoFD/blob/main/Hint_NETWORK_CHALL.md pour des conseils."
+- Sur 'host_1', certains paquets (par exemple, 'ping') sont absents. Utilisez 'yum provides ping' pour identifier et installer le paquet requis."
         HINT="Indice : https://github.com/N0vachr0n0/NoFD/blob/main/Hint_NETWORK_CHALL.md"
         CHECKING="=== Vérification en cours... ==="
         PROMPT_VERIFY="Voulez-vous procéder à la vérification de l'exercice ? (o/n) : "
@@ -58,8 +59,13 @@ Notes supplémentaires :
         MSG_CHECK_FAIL="❌ Vérification échouée."
         MSG_SUCCESS="🎉 Félicitations ! Toutes les étapes sont correctes."
         MSG_FLAG="🏁 Ton flag : NoFD_{HxH}"
-        MSG_DOCKER="Pour commencer le challenge, entrez dans le conteneur host_1 avec : docker exec -it host_1 bash"
+        MSG_DOCKER="Pour commencer le challenge, entrez dans le conteneur host_1 avec : 'docker exec -it host_1 bash'"
         MSG_DOCKER_ERROR="❌ Erreur : Docker n'est pas installé ou ne fonctionne pas. Veuillez installer Docker et vous assurer que le démon est actif. Consultez https://docs.docker.com/get-docker/ pour les instructions d'installation."
+        MSG_CHECK_DNS="Vérification de la résolution DNS (curl vers google.com)..."
+        MSG_CHECK_PING="Vérification du ping vers escalibur-host (172.66.0.9)..."
+        MSG_CHECK_SSH="Vérification de la version OpenSSH dans /var/tmp/openssh_version..."
+        MSG_CHECK_TRIAGE="Vérification du script triage et de son résultat dans /var/result/..."
+        MSG_CHECK_IP_FLAG="Vérification du contenu de flag.txt et suppression de l'IP secondaire..."
     fi
 }
 
@@ -148,6 +154,7 @@ echo -e "\n$CHECKING"
 # Verification checks
 
 # 1. Check DNS resolution (curl to google.com)
+echo -e "$MSG_CHECK_DNS"
 if docker exec host_1 curl -s --connect-timeout 5 google.com >/dev/null 2>&1; then
     echo -e "$MSG_CHECK_OK"
 else
@@ -156,6 +163,7 @@ else
 fi
 
 # 2. Check ping to escalibur-host
+echo -e "$MSG_CHECK_PING"
 if docker exec host_1 ping -c 1 escalibur-host >/dev/null 2>&1; then
     echo -e "$MSG_CHECK_OK"
 else
@@ -164,6 +172,7 @@ else
 fi
 
 # 3. Check OpenSSH version in /var/tmp/openssh_version
+echo -e "$MSG_CHECK_SSH"
 if docker exec host_1 test -f /var/tmp/openssh_version && [ "$(docker exec host_1 cat /var/tmp/openssh_version)" = "SSH-2.0-OpenSSH_7.4" ]; then
     echo -e "$MSG_CHECK_OK"
 else
@@ -172,6 +181,7 @@ else
 fi
 
 # 4. Check triage script and output in /var/result/
+echo -e "$MSG_CHECK_TRIAGE"
 if docker exec host_1 test -f /var/result/triage && docker exec host_1 test -f /var/result/triage_output; then
     echo -e "$MSG_CHECK_OK"
 else
@@ -180,6 +190,7 @@ else
 fi
 
 # 5. Check flag.txt and secondary IP removal
+echo -e "$MSG_CHECK_IP_FLAG"
 if docker exec host_1 test -f /var/result/flag.txt && [ "$(docker exec host_1 cat /var/result/flag.txt)" = "NoFD_{1pm4n4g3r}" ]; then
     echo -e "$MSG_CHECK_OK"
 else
