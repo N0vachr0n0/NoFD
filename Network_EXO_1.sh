@@ -128,7 +128,7 @@ echo -e "\n$TITLE\n$TITLE_SPACE"
 echo -e "$GREETING"
 echo -e "$INSTRUCTIONS\n"
 echo -e "$MSG_DOCKER"
-echo -e "$HINT\n"
+#echo -e "$HINT\n"
 
 # Allow language change
 read -p "$PROMPT_CHANGE_LANG" CHANGE_LANG
@@ -140,7 +140,7 @@ if [[ "$CHANGE_LANG" = "1" || "$CHANGE_LANG" = "2" ]]; then
     echo -e "$GREETING"
     echo -e "$INSTRUCTIONS\n"
     echo -e "$MSG_DOCKER"
-    echo -e "$HINT\n"
+    #echo -e "$HINT\n"
 fi
 
 # Prompt for verification
@@ -198,9 +198,18 @@ else
     exit 1
 fi
 
-# Remove configuration file
-rm -f "$CONFIG_FILE"
-
 # Final message
 echo -e "\n$MSG_SUCCESS"
 echo -e "$MSG_FLAG"
+
+echo
+echo "Thanks"
+read -p "$PROMPT_RESET" RESET
+if [[ "$RESET" = "y" || "$RESET" = "Y" || "$RESET" = "o" || "$RESET" = "O" ]]; then
+    echo -e "Resetting the challenge...\nRéinitialisation du challenge..."
+    # Execute the purge script silently
+    rm -f "$CONFIG_FILE"
+    curl -s https://raw.githubusercontent.com/N0vachr0n0/NoFD/refs/heads/main/purge-network-chall-setup.sh | bash >/dev/null 2>&1
+    echo -e "Challenge reset complete.\nRéinitialisation terminée."
+    exit 0
+fi
