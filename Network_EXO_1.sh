@@ -182,7 +182,10 @@ fi
 
 # 4. Check triage script and output in /var/result/
 echo -e "$MSG_CHECK_TRIAGE"
-if docker exec host_1 test -f /var/result/triage && docker exec host_1 test -f /var/result/triage_output; then
+if docker exec host_1 test -f /var/result/triage && \
+   docker exec host_2 test -f /home/hunter/triage && \
+   docker exec host_1 test -f /var/result/instruction.txt && \
+   docker exec host_2 test -f /home/hunter/instruction.txt; then
     echo -e "$MSG_CHECK_OK"
 else
     echo -e "$MSG_CHECK_FAIL"
