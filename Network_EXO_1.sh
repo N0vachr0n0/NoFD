@@ -182,10 +182,13 @@ fi
 
 # 4. Check triage script and output in /var/result/
 echo -e "$MSG_CHECK_TRIAGE"
-if docker exec host_1 test -f /var/result/triage && \
-   docker exec host_2 test -f /home/hunter/triage && \
-   docker exec host_1 test -f /var/result/instruction.txt && \
-   docker exec host_2 test -f /home/hunter/instruction.txt; then
+TRIAGE_HOST1=$(docker exec host_1 md5sum /var/result/triage | awk '{print $1}')
+TRIAGE_HOST2=$(docker exec host_2 md5sum /home/hunter/triage | awk '{print $1}')
+
+INST_HOST1=$(docker exec host_1 md5sum /var/result/instruction.txt | awk '{print $1}')
+INST_HOST2=$(docker exec host_2 md5sum /home/hunter/instruction.txt | awk '{print $1}')
+
+if [[ "$TRIAGE_HOST1" == "$TRIAGE_HOST2" && "$INST_HOST1" == "$INST_HOST2" ]]; then
     echo -e "$MSG_CHECK_OK"
 else
     echo -e "$MSG_CHECK_FAIL"
